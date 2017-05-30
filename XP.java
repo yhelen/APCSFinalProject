@@ -57,35 +57,35 @@ public class XP implements Comparable<XP>{
         if(this.getNumDigits() > MAX_LENGTH || n.getNumDigits() > MAX_LENGTH) {
             throw new IllegalArgumentException("Numbers too big");
         }
-        String sum = "";
-        //broken??
-        for(int i = 0; i <= Math.max(this.getNumDigits(), n.getNumDigits()); i++) {
-            int total = this.num[i] + n.num[i];
+        int[] sum = new int[ALLOCATED_LEN];
+        for(int i = 0; i < ALLOCATED_LEN; i++) {
+            int total = this.num[i] + n.num[i] + sum[i];
             if(total > 9) {
-                this.num[i + 1] += total / 10;
+                sum[i+1] += total / 10;
             }
-            sum = total % 10 + sum;
+            sum[i] = total % 10;
         }
-        return new XP(sum, false);
+        return new XP(sum);
     }
 
     // TODO
     // Doesn't work --> 
     public XP sub(XP n) {
-        //if(this.compareTo(n) < 0) {
-        //    throw new IllegalArgumentException("input must be less than this number");
-        //}
+        if(this.compareTo(n) < 0) {
+            throw new IllegalArgumentException("input must be less than this number");
+        }
 
-        String diff = "";
+        //UNTESTED
+        int[] diff = new int[ALLOCATED_LEN];
         for(int i = 0; i < ALLOCATED_LEN; i++) {
             if(this.num[i] < n.num[i]) {
-                this.num[i + 1]--;
-                this.num[i] += 10;
+                diff[i + 1]--;
+                diff[i] += 10;
             }
             int total = this.num[i] - n.num[i];
-            diff = total + diff;
+            diff[i] += total;
         }
-        return new XP(diff,false);
+        return new XP(diff);
     }
 
     public XP mult(XP n) {
