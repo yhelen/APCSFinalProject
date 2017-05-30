@@ -5,6 +5,14 @@ public class XP implements Comparable<XP>{
     private static final int MAX_LENGTH = 20;
     private static final int ALLOCATED_LEN = 2 * MAX_LENGTH + 1;
 
+    private XP(int[] digits) {
+        if(digits.length != ALLOCATED_LEN) {
+            throw new IllegalArgumentException("Incorrect num digits");
+        }
+        num = digits;
+        numDigits = countDigits();
+    }
+
     private XP(String digits, boolean initial) {
         if(digits.length() == 0) {
             throw new IllegalArgumentException("No number inputted");
@@ -16,7 +24,7 @@ public class XP implements Comparable<XP>{
         
         num = new int[ALLOCATED_LEN];
         setNum(digits);
-        numDigits = countDigits(digits);
+        numDigits = countDigits();
     }
 
     public XP(String digits) {
@@ -33,7 +41,7 @@ public class XP implements Comparable<XP>{
         }
     }
 
-    private int countDigits(String digits) {
+    private int countDigits() {
         int i = ALLOCATED_LEN - 1;
         while(i >= 0 && num[i] == 0) {
             i--;
