@@ -2,7 +2,7 @@ public class Main {
 
     public static XP rand() {
         String s = "";
-        int len = 10;//(int) (Math.random() * 99) + 1;
+        int len = 5;//(int) (Math.random() * 99) + 1;
         while(len > 0) {
             s += "" + (int) (Math.random() * 10);
             len--;
@@ -21,6 +21,8 @@ public class Main {
         System.out.println("sum: " + sum);
         System.out.println("diff: " + sum.sub(a));
         System.out.println("multi: " + a.mult(b));
+        System.out.println("div: " + a.div(b));
+        System.out.println("mod: " + a.mod(b));
         System.out.println("a.getNumDigits: " + a.getNumDigits());
         System.out.println("a.compareTo: " + a.compareTo(b));
     }

@@ -120,61 +120,77 @@ public class XP implements Comparable<XP>{
         return (int)((z2*Math.pow(10,(ex * 2)))+((z1-z2-z0)*Math.pow(10,ex))+z0);
     }
 
- 
-
     //XP version
     //work in progress, really ugly code below
     //and I can't really explain it b/c it doesnt work
-    /*    private int karatsuba(XP a, XP b){
-	if(a.numDigits <= 1 || b.numDigits <= 1)
-	    return a.num[0] * b.num[0];
-	int exp = Math.min(a.numDigits,b.numDigits);
-	int ex = exp  / 2;
-	System.out.println("" + a + " " + b);
-	String h1 = "";
-	for(int i = a.numDigits - 1; i > ex-1; i--)
-	    h1 += a.num[i];
-	XP high1 = new XP(h1);
-	System.out.println("h1:" + h1);
-	String l1 = "";
-	for(int j = ex-1; j >= 0; j--)
-	    l1 += a.num[j];
-	XP low1 = new XP(l1);
-	System.out.println("l1:" + l1);
-	String h2 = "";
-	for(int k = b.numDigits - 1; k > ex-1; k--)
-	    h2 += b.num[k];
-	XP high2 = new XP(h2);
-	System.out.println("h2:" + h2);
-	String l2 = "";
-	for(int l = ex-1; l >= 0; l--)
-	    l2 += b.num[l];
-	XP low2 = new XP(l2);
-	System.out.println("l2:" + l2);
-	XP lows = low1.add(high1);
-	System.out.println("Low1:" + low1 + " high1:" + high1 + " Lows:" + lows);	
-	XP highs = low2.add(high2);	
-	System.out.println("Low2:" + low2 + " high2:" + high2 + " Highs:" + highs);
-	int z0 = karatsuba(low1,low2);
-	System.out.println(z0);
-	int z1 = karatsuba(lows,highs);
-	System.out.println(z1);
-	int z2 = karatsuba(high1,high2);
-	System.out.println(z2);
-	return (int)((z2*Math.pow(10,(exp)))+((z1-z2-z0)*Math.pow(10,ex))+z0);
-    }*/
-
-    private XP[] division(XP n) {
-        XP[] ans = new XP[2];
-        return ans;
+    private XP karatsuba(XP a, XP b){
+        if(a.numDigits <= 1 || b.numDigits <= 1) {
+            return new XP("" + a.num[0] * b.num[0]);
+        }
+        int exp = Math.min(a.numDigits,b.numDigits);
+        int ex = exp  / 2;
+        System.out.println("" + a + " " + b);
+        String h1 = "";
+        for(int i = a.numDigits - 1; i > ex-1; i--) {
+            h1 += a.num[i];
+        }
+        XP high1 = new XP(h1);
+        System.out.println("h1:" + h1);
+        String l1 = "";
+        for(int j = ex-1; j >= 0; j--) {
+            l1 += a.num[j];
+        }
+        XP low1 = new XP(l1);
+        System.out.println("l1:" + l1);
+        String h2 = "";
+        for(int k = b.numDigits - 1; k > ex-1; k--) {
+            h2 += b.num[k];
+        }
+        XP high2 = new XP(h2);
+        System.out.println("h2:" + h2);
+        String l2 = "";
+        for(int l = ex-1; l >= 0; l--) {
+            l2 += b.num[l];
+        }
+        XP low2 = new XP(l2);
+        System.out.println("l2:" + l2);
+        XP lows = low1.add(high1);
+        System.out.println("Low1:" + low1 + " high1:" + high1 + " Lows:" + lows);	
+        XP highs = low2.add(high2);	
+        System.out.println("Low2:" + low2 + " high2:" + high2 + " Highs:" + highs);
+        XP z0 = karatsuba(low1,low2);
+        System.out.println(z0);
+        XP z1 = karatsuba(lows,highs);
+        System.out.println(z1);
+        XP z2 = karatsuba(high1,high2);
+        System.out.println(z2);
+        //return (int)((z2*Math.pow(10,(exp)))+((z1-z2-z0)*Math.pow(10,ex))+z0);
+        return new XP("0");
     }
-    
+
+    //TODO:
+    //UNDERSTAND WHY THIS ALGORITHM WORKS???
+    //TEST -> CANNOT BE TESTED ATM BC MULT DOESN'T WORK YET
+    private XP[] division(XP a, XP b) {
+        if(a.compareTo(b) < 0) {
+            return new XP[]{new XP("0"),a};
+        }
+        XP two = new XP("2");
+        XP[] temp = division(a, karatsuba(a,b.mult(two)));
+        temp[0] = karatsuba(temp[0],two);
+        if(temp[1].compareTo(b) >= 0) {
+            temp[0] = temp[0].add(new XP("1"));
+            temp[1] = temp[1].sub(b);
+        }
+        return temp;
+    }
+
     public XP div(XP n) {
-        return division(n)[0];
+        return division(this, n)[0];
     }
 
     public XP mod(XP n) {
-        return division(n)[1];
+        return division(this, n)[1];
     }
 
     public int getNumDigits() {
