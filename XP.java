@@ -172,6 +172,9 @@ public class XP implements Comparable<XP>{
     //UNDERSTAND WHY THIS ALGORITHM WORKS???
     //TEST -> CANNOT BE TESTED ATM BC MULT DOESN'T WORK YET
     private XP[] division(XP a, XP b) {
+        if(a.getNumDigits() > MAX_LENGTH * 2 || b.getNumDigits() > MAX_LENGTH * 2) {
+            throw new IllegalArgumentException("Numbers too big");
+        }
         if(a.compareTo(b) < 0) {
             return new XP[]{new XP("0"),a};
         }
