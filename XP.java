@@ -14,17 +14,20 @@ public class XP implements Comparable<XP>{
     }
 
     private XP(String digits, boolean initial) {
-        if(digits.length() == 0) {
-            throw new IllegalArgumentException("No number inputted");
-        }
-        
+            
         if(initial && digits.length() > MAX_LENGTH) {
             throw new IllegalArgumentException("Too many digits: " + digits.length() + " > " + MAX_LENGTH);
         }
+
         
         num = new int[ALLOCATED_LEN];
-        setNum(digits);
-        numDigits = countDigits();
+	if(digits.length() == 0) {
+            num[0] =  0;
+        }
+        else
+	    setNum(digits);
+	numDigits = countDigits();
+	
     }
 
     public XP(String digits) {
@@ -85,7 +88,7 @@ public class XP implements Comparable<XP>{
     }
 
     public XP mult(XP n) {
-        String num1 = "";
+	/*  String num1 = "";
         for(int i = 0; i < this.numDigits; i++){
             num1 = this.num[i] + num1;
         }
@@ -96,8 +99,9 @@ public class XP implements Comparable<XP>{
         int a = Integer.parseInt(num1);
         int b = Integer.parseInt(num2);
         return new XP("" + karatsuba(a,b));
+	*/
         //for XP version later
-        //	return new XP("" + karatsuba(this,n));
+       	return new XP("" + karatsuba(this,n));
     }
 
     //using integers
@@ -125,105 +129,105 @@ public class XP implements Comparable<XP>{
     //and I can't really explain it b/c it doesnt work
     private XP karatsuba(XP a, XP b){
         if(a.numDigits <= 1 || b.numDigits <= 1) {
-            return new XP("" + a.num[0] * b.num[0]);
+            return new XP("" + (a.num[0] * b.num[0]));
         }
-        int exp = Math.min(a.numDigits,b.numDigits);
-        int ex = exp  / 2;
-        System.out.println("" + a + " " + b);
+        int exp = Math.max(a.numDigits,b.numDigits);
+        int ex = Math.round(exp  / 2);
         String h1 = "";
-        for(int i = a.numDigits - 1; i > ex-1; i--) {
+        for(int i = a.numDigits - 1; i > ex; i--) {
             h1 += a.num[i];
         }
         XP high1 = new XP(h1);
-        System.out.println("h1:" + h1);
         String l1 = "";
-        for(int j = ex-1; j >= 0; j--) {
+        for(int j = ex; j >= 0; j--) {
             l1 += a.num[j];
         }
         XP low1 = new XP(l1);
-        System.out.println("l1:" + l1);
         String h2 = "";
-        for(int k = b.numDigits - 1; k > ex-1; k--) {
+        for(int k = b.numDigits - 1; k > ex; k--) {
             h2 += b.num[k];
         }
         XP high2 = new XP(h2);
-        System.out.println("h2:" + h2);
         String l2 = "";
-        for(int l = ex-1; l >= 0; l--) {
+        for(int l = ex; l >= 0; l--) {
             l2 += b.num[l];
         }
         XP low2 = new XP(l2);
-        System.out.println("l2:" + l2);
         XP lows = low1.add(high1);
-        System.out.println("Low1:" + low1 + " high1:" + high1 + " Lows:" + lows);	
         XP highs = low2.add(high2);	
-        System.out.println("Low2:" + low2 + " high2:" + high2 + " Highs:" + highs);
         XP z0 = karatsuba(low1,low2);
-        System.out.println(z0);
         XP z1 = karatsuba(lows,highs);
-        System.out.println(z1);
         XP z2 = karatsuba(high1,high2);
-        System.out.println(z2);
-        //return (int)((z2*Math.pow(10,(exp)))+((z1-z2-z0)*Math.pow(10,ex))+z0);
-        return new XP("0");
+       
+	//	return new XP("" +((z2*Math.pow(10,(ex * 2)))+((z1-z2-z0)*Math.pow(10,ex))+z0));
+	return temp(z2,(ex * 2)).add(temp(z1.sub(z2).sub(z0),ex)).add(z0);
+	//	return new XP("0");
+    }
+
+    private XP temp(XP z, int exp){
+	XP ans = new XP("0");
+	for(int i = 0; i < z.numDigits; i++){
+	    ans.num[exp - i] = z.num[z.numDigits - 1 - i];
+	}
+	return ans;
     }
 
     //TODO:
     //UNDERSTAND WHY THIS ALGORITHM WORKS???
     //TEST -> CANNOT BE TESTED ATM BC MULT DOESN'T WORK YET
     private XP[] division(XP a, XP b) {
-        if(a.getNumDigits() > MAX_LENGTH * 2 || b.getNumDigits() > MAX_LENGTH * 2) {
-            throw new IllegalArgumentException("Numbers too big");
-        }
-        if(a.compareTo(b) < 0) {
-            return new XP[]{new XP("0"),a};
-        }
-        XP two = new XP("2");
-        XP[] temp = division(a, karatsuba(a,b.mult(two)));
-        temp[0] = karatsuba(temp[0],two);
-        if(temp[1].compareTo(b) >= 0) {
-            temp[0] = temp[0].add(new XP("1"));
-            temp[1] = temp[1].sub(b);
-        }
-        return temp;
+	if(a.getNumDigits() > MAX_LENGTH * 2 || b.getNumDigits() > MAX_LENGTH * 2) {
+	    throw new IllegalArgumentException("Numbers too big");
+	}
+	if(a.compareTo(b) < 0) {
+	    return new XP[]{new XP("0"),a};
+	}
+	XP two = new XP("2");
+	XP[] temp = division(a, karatsuba(a,b.mult(two)));
+	temp[0] = karatsuba(temp[0],two);
+	if(temp[1].compareTo(b) >= 0) {
+	    temp[0] = temp[0].add(new XP("1"));
+	    temp[1] = temp[1].sub(b);
+	}
+	return temp;
     }
 
-    public XP div(XP n) {
-        return division(this, n)[0];
-    }
+		public XP div(XP n) {
+		    return division(this, n)[0];
+		}
 
-    public XP mod(XP n) {
-        return division(this, n)[1];
-    }
+		public XP mod(XP n) {
+		    return division(this, n)[1];
+		}
 
-    public int getNumDigits() {
-        return numDigits;
-    }
+		public int getNumDigits() {
+		    return numDigits;
+		}
 
-    // TODO
-    // TEST FURTHER
-    public int compareTo(XP b) {
-        if(this.getNumDigits() != b.getNumDigits()) {
-            return this.getNumDigits() - b.getNumDigits();
-        }
+		// TODO
+		// TEST FURTHER
+		public int compareTo(XP b) {
+		    if(this.getNumDigits() != b.getNumDigits()) {
+			return this.getNumDigits() - b.getNumDigits();
+		    }
         
-        for(int i = this.getNumDigits() - 1; i >= 0; i--) {
-            if(this.num[i] != b.num[i]) {
-                return this.num[i] - b.num[i];
-            }
-        }
+		    for(int i = this.getNumDigits() - 1; i >= 0; i--) {
+			if(this.num[i] != b.num[i]) {
+			    return this.num[i] - b.num[i];
+			}
+		    }
         
-        return 0;
-    }
+		    return 0;
+		}
 
-    public String toString() {
-        String ans = "";
-        int i = getNumDigits() - 1;
-        while(i >= 0) {
-            ans += num[i];
-            i--;
-        }
-        return ans;
-    }
+		public String toString() {
+		    String ans = "";
+		    int i = getNumDigits() - 1;
+		    while(i >= 0) {
+			ans += num[i];
+			i--;
+		    }
+		    return ans;
+		}
 
-}
+		}
