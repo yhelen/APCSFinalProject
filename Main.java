@@ -11,14 +11,16 @@ public class Main {
         return new XP(s);
     }
 
+    
     public static void main(String[] args) {
         XP a = rand();
-        XP b = rand();
+	XP b = rand();
         System.out.println("a: " + a);
         System.out.println("b: " + b);
         XP sum = a.add(b);
         System.out.println("sum: " + sum);
-        //System.out.println("diff: " + sum.sub(a));
+        System.out.println("diff: " + sum.sub(a));
+	System.out.println("multi: " + a.mult(b));  
         System.out.println("a.getNumDigits: " + a.getNumDigits());
         System.out.println("a.compareTo: " + a.compareTo(b));
     }
