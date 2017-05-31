@@ -88,88 +88,52 @@ public class XP implements Comparable<XP>{
     }
 
     public XP mult(XP n) {
-	/*  String num1 = "";
-        for(int i = 0; i < this.numDigits; i++){
-            num1 = this.num[i] + num1;
-        }
-        String num2 = "";
-        for(int j = 0; j < n.numDigits; j++){
-            num2 = n.num[j] + num2;
-        }
-        int a = Integer.parseInt(num1);
-        int b = Integer.parseInt(num2);
-        return new XP("" + karatsuba(a,b));
-	*/
-        //for XP version later
        	return new XP("" + karatsuba(this,n));
     }
 
-    //using integers
-    //I think it works but should be tested more
-    private int karatsuba(int n1, int n2){
-        //	System.out.println(n1 + " " + n2);
-        if(n1 < 10 || n2 < 10)
-            return n1 * n2;
-        String a = "" + n1;
-        String b = "" + n2;
-        int exp = Math.max(a.length(),b.length());
-        int ex = (Math.round(exp/2));
-        int low1 = Integer.parseInt(a.substring(a.length() - ex, a.length()));
-        int high1 = Integer.parseInt(a.substring(0,a.length() - ex));
-        int low2 = Integer.parseInt(b.substring(b.length() - ex, b.length()));
-        int high2 = Integer.parseInt(b.substring(0,b.length()-ex));
-        int z0 = karatsuba(low1,low2);
-        int z1 = karatsuba((low1+high1),(low2+high2));
-        int z2 = karatsuba(high1,high2);
-        return (int)((z2*Math.pow(10,(ex * 2)))+((z1-z2-z0)*Math.pow(10,ex))+z0);
-    }
-
     //XP version
-    //work in progress, really ugly code below
-    //and I can't really explain it b/c it doesnt work
-    private XP karatsuba(XP a, XP b){
-        if(a.numDigits <= 1 || b.numDigits <= 1) {
+    //works, but really ugly code below
+       private XP karatsuba(XP a, XP b){
+        if(a.numDigits <= 1 && b.numDigits <= 1) {	    
             return new XP("" + (a.num[0] * b.num[0]));
         }
         int exp = Math.max(a.numDigits,b.numDigits);
-        int ex = Math.round(exp  / 2);
+        int ex = (Math.round(exp  / 2));
         String h1 = "";
-        for(int i = a.numDigits - 1; i > ex; i--) {
+        for(int i = a.numDigits - 1; i >= ex; i--) {
             h1 += a.num[i];
         }
         XP high1 = new XP(h1);
         String l1 = "";
-        for(int j = ex; j >= 0; j--) {
+        for(int j = ex - 1; j >= 0; j--) {
             l1 += a.num[j];
         }
         XP low1 = new XP(l1);
         String h2 = "";
-        for(int k = b.numDigits - 1; k > ex; k--) {
+        for(int k = b.numDigits - 1; k >= ex; k--) {
             h2 += b.num[k];
         }
         XP high2 = new XP(h2);
         String l2 = "";
-        for(int l = ex; l >= 0; l--) {
+        for(int l = ex - 1; l >= 0; l--) {
             l2 += b.num[l];
         }
         XP low2 = new XP(l2);
-        XP lows = low1.add(high1);
-        XP highs = low2.add(high2);	
+        XP lows = high1.add(low1);
+	XP highs = high2.add(low2);
         XP z0 = karatsuba(low1,low2);
         XP z1 = karatsuba(lows,highs);
         XP z2 = karatsuba(high1,high2);
-       
-	//	return new XP("" +((z2*Math.pow(10,(ex * 2)))+((z1-z2-z0)*Math.pow(10,ex))+z0));
 	return temp(z2,(ex * 2)).add(temp(z1.sub(z2).sub(z0),ex)).add(z0);
-	//	return new XP("0");
-    }
+    } 
 
     private XP temp(XP z, int exp){
-	XP ans = new XP("0");
-	for(int i = 0; i < z.numDigits; i++){
-	    ans.num[exp - i] = z.num[z.numDigits - 1 - i];
-	}
-	return ans;
+	String x = "";
+	for(int i = 0; i < exp; i++)
+	    x += 0;
+	for(int j = 0; j < z.numDigits; j++)
+	    x = z.num[j] + x;
+	return new XP(x);
     }
 
     //TODO:
@@ -191,43 +155,44 @@ public class XP implements Comparable<XP>{
 	}
 	return temp;
     }
+    
 
-		public XP div(XP n) {
-		    return division(this, n)[0];
-		}
+    public XP div(XP n) {
+	return division(this, n)[0];
+    }
 
-		public XP mod(XP n) {
-		    return division(this, n)[1];
-		}
-
-		public int getNumDigits() {
-		    return numDigits;
-		}
-
-		// TODO
-		// TEST FURTHER
-		public int compareTo(XP b) {
-		    if(this.getNumDigits() != b.getNumDigits()) {
-			return this.getNumDigits() - b.getNumDigits();
-		    }
+    public XP mod(XP n) {
+	return division(this, n)[1];
+    }
+    //*/
+    public int getNumDigits() {
+	return numDigits;
+    }
+    
+    // TODO
+    // TEST FURTHER
+    public int compareTo(XP b) {
+	if(this.getNumDigits() != b.getNumDigits()) {
+	    return this.getNumDigits() - b.getNumDigits();
+	}
         
-		    for(int i = this.getNumDigits() - 1; i >= 0; i--) {
-			if(this.num[i] != b.num[i]) {
-			    return this.num[i] - b.num[i];
-			}
-		    }
+	for(int i = this.getNumDigits() - 1; i >= 0; i--) {
+	    if(this.num[i] != b.num[i]) {
+		return this.num[i] - b.num[i];
+	    }
+	}
         
-		    return 0;
-		}
+	return 0;
+    }
 
-		public String toString() {
-		    String ans = "";
-		    int i = getNumDigits() - 1;
-		    while(i >= 0) {
-			ans += num[i];
-			i--;
-		    }
-		    return ans;
-		}
+    public String toString() {
+	String ans = "";
+	int i = getNumDigits() - 1;
+	while(i >= 0) {
+	    ans += num[i];
+	    i--;
+	}
+	return ans;
+    }
 
 		}

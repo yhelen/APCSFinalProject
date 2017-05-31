@@ -21,8 +21,8 @@ public class Main {
         System.out.println("sum: " + sum);
         System.out.println("diff: " + sum.sub(a));
         System.out.println("multi: " + a.mult(b));
-        System.out.println("div: " + a.div(b));
-        System.out.println("mod: " + a.mod(b));
+	System.out.println("div: " + a.div(b));
+	System.out.println("mod: " + a.mod(b));
         System.out.println("a.getNumDigits: " + a.getNumDigits());
         System.out.println("a.compareTo: " + a.compareTo(b));
     }
