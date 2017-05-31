@@ -85,39 +85,39 @@ public class XP implements Comparable<XP>{
     }
 
     public XP mult(XP n) {
-	String num1 = "";
-	for(int i = 0; i < this.numDigits; i++){
-	    num1 = this.num[i] + num1;
-	}
-	String num2 = "";
-	for(int j = 0; j < n.numDigits; j++){
-	    num2 = n.num[j] + num2;
-	}
-	int a = Integer.parseInt(num1);
-	int b = Integer.parseInt(num2);
-	return new XP("" + karatsuba(a,b));
-	//for XP version later
-	//	return new XP("" + karatsuba(this,n));
+        String num1 = "";
+        for(int i = 0; i < this.numDigits; i++){
+            num1 = this.num[i] + num1;
+        }
+        String num2 = "";
+        for(int j = 0; j < n.numDigits; j++){
+            num2 = n.num[j] + num2;
+        }
+        int a = Integer.parseInt(num1);
+        int b = Integer.parseInt(num2);
+        return new XP("" + karatsuba(a,b));
+        //for XP version later
+        //	return new XP("" + karatsuba(this,n));
     }
 
     //using integers
     //I think it works but should be tested more
     private int karatsuba(int n1, int n2){
-	//	System.out.println(n1 + " " + n2);
-	if(n1 < 10 || n2 < 10)
-	    return n1 * n2;
-	String a = "" + n1;
-	String b = "" + n2;
-	int exp = Math.max(a.length(),b.length());
-	int ex = (int)(Math.round(exp/2));
-	int low1 = Integer.parseInt(a.substring(a.length() - ex, a.length()));
-	int high1 = Integer.parseInt(a.substring(0,a.length() - ex));
-	int low2 = Integer.parseInt(b.substring(b.length() - ex, b.length()));
-	int high2 = Integer.parseInt(b.substring(0,b.length()-ex));
-	int z0 = karatsuba(low1,low2);
-	int z1 = karatsuba((low1+high1),(low2+high2));
-	int z2 = karatsuba(high1,high2);
-	return (int)((z2*Math.pow(10,(ex * 2)))+((z1-z2-z0)*Math.pow(10,ex))+z0);
+        //	System.out.println(n1 + " " + n2);
+        if(n1 < 10 || n2 < 10)
+            return n1 * n2;
+        String a = "" + n1;
+        String b = "" + n2;
+        int exp = Math.max(a.length(),b.length());
+        int ex = (Math.round(exp/2));
+        int low1 = Integer.parseInt(a.substring(a.length() - ex, a.length()));
+        int high1 = Integer.parseInt(a.substring(0,a.length() - ex));
+        int low2 = Integer.parseInt(b.substring(b.length() - ex, b.length()));
+        int high2 = Integer.parseInt(b.substring(0,b.length()-ex));
+        int z0 = karatsuba(low1,low2);
+        int z1 = karatsuba((low1+high1),(low2+high2));
+        int z2 = karatsuba(high1,high2);
+        return (int)((z2*Math.pow(10,(ex * 2)))+((z1-z2-z0)*Math.pow(10,ex))+z0);
     }
 
  
@@ -164,10 +164,17 @@ public class XP implements Comparable<XP>{
 	return (int)((z2*Math.pow(10,(exp)))+((z1-z2-z0)*Math.pow(10,ex))+z0);
     }*/
 
-    
+    private XP[] division(XP n) {
+        XP[] ans = new XP[2];
+        return ans;
+    }
     
     public XP div(XP n) {
-        return null;
+        return division(n)[0];
+    }
+
+    public XP mod(XP n) {
+        return division(n)[1];
     }
 
     public int getNumDigits() {
