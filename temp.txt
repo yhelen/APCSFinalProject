@@ -1,7 +1,0 @@
-a: 12345
-b: 6789
-sum: 19134
-diff: 6789
-multi: 83810205
-a.getNumDigits: 5
-a.compareTo: 1

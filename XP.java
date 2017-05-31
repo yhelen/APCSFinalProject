@@ -14,20 +14,18 @@ public class XP implements Comparable<XP>{
     }
 
     private XP(String digits, boolean initial) {
-            
         if(initial && digits.length() > MAX_LENGTH) {
             throw new IllegalArgumentException("Too many digits: " + digits.length() + " > " + MAX_LENGTH);
         }
 
-        
         num = new int[ALLOCATED_LEN];
-	if(digits.length() == 0) {
+        if(digits.length() == 0) {
             num[0] =  0;
         }
-        else
-	    setNum(digits);
-	numDigits = countDigits();
-	
+        else {
+            setNum(digits);
+        }
+        numDigits = countDigits();
     }
 
     public XP(String digits) {
@@ -60,6 +58,7 @@ public class XP implements Comparable<XP>{
         if(this.getNumDigits() > MAX_LENGTH || n.getNumDigits() > MAX_LENGTH) {
             throw new IllegalArgumentException("Numbers too big");
         }
+
         int[] sum = new int[ALLOCATED_LEN];
         for(int i = 0; i < ALLOCATED_LEN; i++) {
             int total = this.num[i] + n.num[i] + sum[i];
@@ -75,6 +74,7 @@ public class XP implements Comparable<XP>{
         if(this.compareTo(n) < 0) {
             throw new IllegalArgumentException("input must be less than this number");
         }
+
         int[] diff = new int[ALLOCATED_LEN];
         for(int i = 0; i < ALLOCATED_LEN; i++) {
             if(diff[i] + this.num[i] < n.num[i]) {
@@ -88,15 +88,16 @@ public class XP implements Comparable<XP>{
     }
 
     public XP mult(XP n) {
-       	return new XP("" + karatsuba(this,n));
+        return new XP("" + karatsuba(this,n));
     }
 
     //XP version
     //works, but really ugly code below
-       private XP karatsuba(XP a, XP b){
+    private XP karatsuba(XP a, XP b){
         if(a.numDigits <= 1 && b.numDigits <= 1) {	    
             return new XP("" + (a.num[0] * b.num[0]));
         }
+
         int exp = Math.max(a.numDigits,b.numDigits);
         int ex = (Math.round(exp  / 2));
         String h1 = "";
@@ -118,81 +119,86 @@ public class XP implements Comparable<XP>{
         for(int l = ex - 1; l >= 0; l--) {
             l2 += b.num[l];
         }
+
         XP low2 = new XP(l2);
         XP lows = high1.add(low1);
-	XP highs = high2.add(low2);
+        XP highs = high2.add(low2);
         XP z0 = karatsuba(low1,low2);
         XP z1 = karatsuba(lows,highs);
         XP z2 = karatsuba(high1,high2);
-	return temp(z2,(ex * 2)).add(temp(z1.sub(z2).sub(z0),ex)).add(z0);
+        return temp(z2,(ex * 2)).add(temp(z1.sub(z2).sub(z0),ex)).add(z0);
     } 
 
     private XP temp(XP z, int exp){
-	String x = "";
-	for(int i = 0; i < exp; i++)
-	    x += 0;
-	for(int j = 0; j < z.numDigits; j++)
-	    x = z.num[j] + x;
-	return new XP(x);
+        String x = "";
+        for(int i = 0; i < exp; i++) {
+            x += 0;
+        }
+        for(int j = 0; j < z.numDigits; j++) {
+            x = z.num[j] + x;
+        }
+        return new XP(x);
     }
 
     //TODO:
     //UNDERSTAND WHY THIS ALGORITHM WORKS???
-    //TEST -> CANNOT BE TESTED ATM BC MULT DOESN'T WORK YET
+    //TEST
     private XP[] division(XP a, XP b) {
-	if(a.getNumDigits() > MAX_LENGTH * 2 || b.getNumDigits() > MAX_LENGTH * 2) {
-	    throw new IllegalArgumentException("Numbers too big");
-	}
-	if(a.compareTo(b) < 0) {
-	    return new XP[]{new XP("0"),a};
-	}
-	XP two = new XP("2");
-	XP[] temp = division(a, karatsuba(a,b.mult(two)));
-	temp[0] = karatsuba(temp[0],two);
-	if(temp[1].compareTo(b) >= 0) {
-	    temp[0] = temp[0].add(new XP("1"));
-	    temp[1] = temp[1].sub(b);
-	}
-	return temp;
+        if(a.getNumDigits() > MAX_LENGTH * 2 || b.getNumDigits() > MAX_LENGTH * 2) {
+            throw new IllegalArgumentException("Numbers too big");
+        }
+
+        if(a.compareTo(b) < 0) {
+            return new XP[]{new XP("0"),a};
+        }
+
+        XP two = new XP("2");
+        XP[] temp = division(a,b.mult(two));
+        temp[0] = temp[0].mult(two);
+        if(temp[1].compareTo(b) >= 0) {
+            temp[0] = temp[0].add(new XP("1"));
+            temp[1] = temp[1].sub(b);
+        }
+        return temp;
     }
-    
+
 
     public XP div(XP n) {
-	return division(this, n)[0];
+        return division(this, n)[0];
     }
 
     public XP mod(XP n) {
-	return division(this, n)[1];
+        return division(this, n)[1];
     }
-    //*/
+
     public int getNumDigits() {
-	return numDigits;
+        return numDigits;
     }
-    
+
     // TODO
     // TEST FURTHER
     public int compareTo(XP b) {
-	if(this.getNumDigits() != b.getNumDigits()) {
-	    return this.getNumDigits() - b.getNumDigits();
-	}
-        
-	for(int i = this.getNumDigits() - 1; i >= 0; i--) {
-	    if(this.num[i] != b.num[i]) {
-		return this.num[i] - b.num[i];
-	    }
-	}
-        
-	return 0;
+        if(this.getNumDigits() != b.getNumDigits()) {
+            return this.getNumDigits() - b.getNumDigits();
+        }
+
+        for(int i = this.getNumDigits() - 1; i >= 0; i--) {
+            if(this.num[i] != b.num[i]) {
+                return this.num[i] - b.num[i];
+            }
+        }
+
+        return 0;
     }
 
     public String toString() {
-	String ans = "";
-	int i = getNumDigits() - 1;
-	while(i >= 0) {
-	    ans += num[i];
-	    i--;
-	}
-	return ans;
+        String ans = "";
+        int i = getNumDigits() - 1;
+        while(i >= 0) {
+            ans += num[i];
+            i--;
+        }
+        return ans;
     }
 
-		}
+}
