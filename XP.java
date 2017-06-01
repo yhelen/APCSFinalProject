@@ -56,8 +56,9 @@ public class XP implements Comparable<XP>{
     }
 
     public XP add(XP n) {
-        if(this.getNumDigits() > MAX_LENGTH || n.getNumDigits() > MAX_LENGTH) {
-            throw new IllegalArgumentException("Numbers too big");
+        if(this.getNumDigits() > 2 * MAX_LENGTH || n.getNumDigits() > 2 * MAX_LENGTH) {
+            throw new IllegalArgumentException("Numbers too big--digits of this: " +
+                    this.getNumDigits() + " or input: " + n.getNumDigits());
         }
 
         int[] sum = new int[ALLOCATED_LEN];
@@ -73,7 +74,7 @@ public class XP implements Comparable<XP>{
 
     public XP sub(XP n) {
         if(this.compareTo(n) < 0) {
-            throw new IllegalArgumentException("input must be less than this number");
+            throw new IllegalArgumentException("Input greater than this number");
         }
 
         int[] diff = new int[ALLOCATED_LEN];
@@ -146,7 +147,8 @@ public class XP implements Comparable<XP>{
     //TEST
     private XP[] division(XP a, XP b) {
         if(a.getNumDigits() > MAX_LENGTH * 2 || b.getNumDigits() > MAX_LENGTH * 2) {
-            throw new IllegalArgumentException("Numbers too big");
+            throw new IllegalArgumentException("Numbers too big--digits of dividend: " +
+                    a.getNumDigits() + "or divisor: " + b.getNumDigits());
         }
 
         if(a.compareTo(b) < 0) {
