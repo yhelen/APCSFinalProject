@@ -1,11 +1,8 @@
 public class Main {
 
     public static XP rand() {
-        return rand(5);
-    }
-
-    public static XP rand(int len) {
         String s = "";
+        int len = (int) (Math.random() * 100);
         while(len > 0) {
             s += "" + (int) (Math.random() * 10);
             len--;
@@ -15,7 +12,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        XP a = rand(10);
+        XP a = rand();
         XP b = rand();
         System.out.println("a: " + a);
         System.out.println("b: " + b);

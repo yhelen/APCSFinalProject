@@ -2,7 +2,7 @@ public class XP implements Comparable<XP>{
 
     private int[] num;
     private int numDigits;
-    private static final int MAX_LENGTH = 20;
+    private static final int MAX_LENGTH = 100;
     private static final int ALLOCATED_LEN = 2 * MAX_LENGTH + 1;
 
     private XP(int[] digits) {
