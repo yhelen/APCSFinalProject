@@ -47,6 +47,7 @@ public class XP implements Comparable<XP>{
         while(i >= 0 && num[i] == 0) {
             i--;
         }
+        if(i == -1) return 1;
         return i + 1;
     }
 
@@ -137,7 +138,7 @@ public class XP implements Comparable<XP>{
         for(int j = 0; j < z.numDigits; j++) {
             x = z.num[j] + x;
         }
-        return new XP(x);
+        return new XP(x, false);
     }
 
     //TODO:
