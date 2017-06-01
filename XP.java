@@ -88,7 +88,7 @@ public class XP implements Comparable<XP>{
     }
 
     public XP mult(XP n) {
-        return new XP("" + karatsuba(this,n));
+        return new XP("" + karatsuba(this,n), false);
     }
 
     //XP version
