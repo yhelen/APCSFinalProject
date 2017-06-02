@@ -1,0 +1,14 @@
+public class Message{
+
+    private String _msg;
+    private String _msgasc;
+    
+
+    public Message()
+
+
+
+
+
+
+}

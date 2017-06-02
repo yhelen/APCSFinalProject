@@ -29,6 +29,10 @@ public class Main {
         int enc = rsa.encrypt(2003);
         System.out.println(enc);
         System.out.println(rsa.decrypt(enc));
+
+	XP en = rsa.encrypt(new XP("2003"));
+	System.out.println(en);
+	System.out.println(rsa.decrypt(en));
     }
 
 }

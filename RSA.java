@@ -31,4 +31,22 @@ public class RSA {
         return modEx(new XP("" + input), privateKey[0], privateKey[1]);
     }
 
+    //for XPs
+
+    public XP modExXP(XP b, int e, int m){
+	XP c = new XP("1");
+	 for(int i = 0; i < e; i++) {
+            c = b.mult(c).mod(new XP("" + m));
+        }
+        return c;
+    }
+    
+    public XP encrypt(XP input){
+	return modExXP(input, publicKey[0], publicKey[1]);
+    }
+
+    public XP decrypt(XP input){
+	return modExXP(input, privateKey[0],privateKey[1]);
+    }
+
 }
