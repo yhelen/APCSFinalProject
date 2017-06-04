@@ -32,6 +32,11 @@ public class XP implements Comparable<XP>{
         this(digits, true);
     }
 
+    //needed for message
+    public int getLength(){
+	return MAX_LENGTH;
+    }
+    
     private void setNum(String digits) {
         int strInd = digits.length();
         int i = 0;
