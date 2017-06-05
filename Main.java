@@ -12,44 +12,44 @@ public class Main {
     }
 
     public static void main(String[] args) {
-	XP a = rand();
-	XP b = rand();
-	System.out.println("a: " + a);
-	System.out.println("b: " + b);
-	XP sum = a.add(b);
-	System.out.println("sum: " + sum);
-	System.out.println("diff: " + sum.sub(a));
-	System.out.println("multi: " + a.mult(b));
-	System.out.println("div: " + a.div(b));
-	System.out.println("mod: " + a.mod(b));
-	System.out.println("a.getNumDigits: " + a.getNumDigits());
-	System.out.println("a.compareTo: " + a.compareTo(b));
-	
-	RSA rsa = new RSA();
-	int enc = rsa.encrypt(2003);
-	System.out.println(enc);
-	System.out.println(rsa.decrypt(enc));
+        XP a = rand();
+        XP b = rand();
+        System.out.println("a: " + a);
+        System.out.println("b: " + b);
+        XP sum = a.add(b);
+        System.out.println("sum: " + sum);
+        System.out.println("diff: " + sum.sub(a));
+        System.out.println("multi: " + a.mult(b));
+        System.out.println("div: " + a.div(b));
+        System.out.println("mod: " + a.mod(b));
+        System.out.println("a.getNumDigits: " + a.getNumDigits());
+        System.out.println("a.compareTo: " + a.compareTo(b));
 
-	XP en = rsa.encrypt(new XP("2003"));
-	System.out.println(en);
-	System.out.println(rsa.decrypt(en));
-        
-	
-	/*	Message m = new Message("I like trains and turtles");
-		System.out.println(m.getMsg());
-		System.out.println(m.getMsgasc());
-		//	System.out.println(m.getMsgint());
-		System.out.print(m.convertXP(m.getMsgasc())[0]);
-		System.out.println(m.convertXP(m.getMsgasc())[1]);
-		System.out.println(m.convertXP(m.getMsgasc())[2]);
-		System.out.println(m.getSize());
-		XP[] ar = m.encrypt(m.getMsgarray());
-		System.out.print(ar[0]);
-		System.out.println(ar[1]);
-		XP[] ar2 = m.decrypt(ar);
-		System.out.print(ar2[0]);
-		System.out.println(ar2[1]);
-	*/
+        RSA rsa = new RSA();
+        int enc = rsa.encrypt(2003);
+        System.out.println(enc);
+        System.out.println(rsa.decrypt(enc));
+
+        XP en = rsa.encrypt(new XP("2003"));
+        System.out.println(en);
+        System.out.println(rsa.decrypt(en));
+
+
+        /*	Message m = new Message("I like trains and turtles");
+            System.out.println(m.getMsg());
+            System.out.println(m.getMsgasc());
+        //	System.out.println(m.getMsgint());
+        System.out.print(m.convertXP(m.getMsgasc())[0]);
+        System.out.println(m.convertXP(m.getMsgasc())[1]);
+        System.out.println(m.convertXP(m.getMsgasc())[2]);
+        System.out.println(m.getSize());
+        XP[] ar = m.encrypt(m.getMsgarray());
+        System.out.print(ar[0]);
+        System.out.println(ar[1]);
+        XP[] ar2 = m.decrypt(ar);
+        System.out.print(ar2[0]);
+        System.out.println(ar2[1]);
+        */
     }
 
 }

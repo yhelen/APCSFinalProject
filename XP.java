@@ -34,9 +34,9 @@ public class XP implements Comparable<XP>{
 
     //needed for message
     public int getLength(){
-	return MAX_LENGTH;
+        return MAX_LENGTH;
     }
-    
+
     private void setNum(String digits) {
         int strInd = digits.length();
         int i = 0;
@@ -183,8 +183,6 @@ public class XP implements Comparable<XP>{
         return numDigits;
     }
 
-    // TODO
-    // TEST FURTHER
     public int compareTo(XP b) {
         if(this.getNumDigits() != b.getNumDigits()) {
             return this.getNumDigits() - b.getNumDigits();
