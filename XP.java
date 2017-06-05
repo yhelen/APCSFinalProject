@@ -1,28 +1,40 @@
+// Stores large numbers, and performs basic arithmetic operations
+// + , - , * , / , % and comparison
 public class XP implements Comparable<XP>{
 
+    // Array to store all the digits of the number
+    // Index 0 is the ones digit, 1 is the tens, 2 is the hundreds, etc...
     private int[] num;
     private int numDigits;
+    // The max allowed digits when initiated externally
+    // Let this variable equal N
     private static final int MAX_LENGTH = 100;
+    // The max allocated digits (max digits when adding 2N digit nums)
     private static final int ALLOCATED_LEN = 2 * MAX_LENGTH + 1;
 
+    // Constructor to set an XP equal to an array of digits
+    // TODO
+    // Check that all digits are, in fact, digits
     private XP(int[] digits) {
         if(digits.length != ALLOCATED_LEN) {
             throw new IllegalArgumentException("Incorrect num digits");
         }
+
         num = digits;
         numDigits = countDigits();
     }
 
+    // Private constructor that takes a string of digits and adds them
+    // to the digit array, but has a boolean input so that the public
+    // constructor only accepts N digits, but can privately accept 2N+1
     private XP(String digits, boolean initial) {
         if(initial && digits.length() > MAX_LENGTH) {
-            throw new IllegalArgumentException("Too many digits: " + digits.length() + " > " + MAX_LENGTH);
+            throw new IllegalArgumentException("Too many digits: " +
+                    digits.length() + " > " + MAX_LENGTH);
         }
 
         num = new int[ALLOCATED_LEN];
-        if(digits.length() == 0) {
-            num[0] =  0;
-        }
-        else {
+        if(digits.length() != 0) {
             setNum(digits);
         }
         numDigits = countDigits();
@@ -32,11 +44,18 @@ public class XP implements Comparable<XP>{
         this(digits, true);
     }
 
-    //needed for message
+    // Takes in an int and turns it to XP
+    public XP(int number) {
+        this("" + number);
+    }
+
+    // needed for message
     public int getLength(){
         return MAX_LENGTH;
     }
 
+    // Takes the string of digits and parses through, setting each character
+    // to a position in the array
     private void setNum(String digits) {
         int strInd = digits.length();
         int i = 0;
@@ -47,6 +66,8 @@ public class XP implements Comparable<XP>{
         }
     }
 
+    // Counts number of digits by subtracting the number of leading zeroes from
+    // the allocated length
     private int countDigits() {
         int i = ALLOCATED_LEN - 1;
         while(i >= 0 && num[i] == 0) {
@@ -56,10 +77,13 @@ public class XP implements Comparable<XP>{
         return i + 1;
     }
 
+    // Returns whether the XP is odd
     public boolean isOdd() {
         return num[0] % 2 == 1;
     }
 
+    // Adds two numbers by going through each digit and carrying over digits if
+    // necessary
     public XP add(XP n) {
         if(this.getNumDigits() > 2 * MAX_LENGTH || n.getNumDigits() > 2 * MAX_LENGTH) {
             throw new IllegalArgumentException("Numbers too big--digits of this: " +
@@ -77,6 +101,8 @@ public class XP implements Comparable<XP>{
         return new XP(sum);
     }
 
+    // Subtracts two numbers by going through each digit and "borrowing" digits
+    // if necessary
     public XP sub(XP n) {
         if(this.compareTo(n) < 0) {
             throw new IllegalArgumentException("Input greater than this number");
@@ -94,12 +120,11 @@ public class XP implements Comparable<XP>{
         return new XP(diff);
     }
 
+    // Multiplies two XPs
     public XP mult(XP n) {
         return new XP("" + karatsuba(this,n), false);
     }
 
-    //XP version
-    //works, but really ugly code below
     private XP karatsuba(XP a, XP b){
         if(a.numDigits <= 1 && b.numDigits <= 1) {	    
             return new XP("" + (a.num[0] * b.num[0]));
@@ -147,9 +172,14 @@ public class XP implements Comparable<XP>{
         return new XP(x, false);
     }
 
-    //TODO:
-    //UNDERSTAND WHY THIS ALGORITHM WORKS???
-    //TEST
+    // Divides two XPS using the algorithm:
+    // Check if the first is less than second, if so return [0, a]
+    // Set [q,r] = division(a, 2 * b)
+    // Multiply q by 2
+    // If the remainder (r in [q,r]) is less than the divisor (b), return
+    //      the current [q,r]
+    // else add one to quotient and subtract the divisor from the remainder
+    //      and return that
     private XP[] division(XP a, XP b) {
         if(a.getNumDigits() > MAX_LENGTH * 2 || b.getNumDigits() > MAX_LENGTH * 2) {
             throw new IllegalArgumentException("Numbers too big--digits of dividend: " +
@@ -171,10 +201,12 @@ public class XP implements Comparable<XP>{
     }
 
 
+    // Returns the quotient, the first element returned by the division method
     public XP div(XP n) {
         return division(this, n)[0];
     }
 
+    // Returns the remainder, the second element returned by the division method
     public XP mod(XP n) {
         return division(this, n)[1];
     }
@@ -183,6 +215,8 @@ public class XP implements Comparable<XP>{
         return numDigits;
     }
 
+    // Compares two XPs by:
+    // comparing number of digits, then comparing each digit starting from the greatest
     public int compareTo(XP b) {
         if(this.getNumDigits() != b.getNumDigits()) {
             return this.getNumDigits() - b.getNumDigits();

@@ -1,5 +1,6 @@
 public class Main {
 
+    // Generates a random XP
     public static XP rand() {
         String s = "";
         int len = (int) (Math.random() * 100);
