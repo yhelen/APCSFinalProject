@@ -1,3 +1,4 @@
+import java.util.Scanner;
 public class Main {
 
     // Generates a random XP
@@ -13,44 +14,57 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        XP a = rand();
-        XP b = rand();
-        System.out.println("a: " + a);
-        System.out.println("b: " + b);
-        XP sum = a.add(b);
-        System.out.println("sum: " + sum);
-        System.out.println("diff: " + sum.sub(a));
-        System.out.println("multi: " + a.mult(b));
-        System.out.println("div: " + a.div(b));
-        System.out.println("mod: " + a.mod(b));
-        System.out.println("a.getNumDigits: " + a.getNumDigits());
-        System.out.println("a.compareTo: " + a.compareTo(b));
+	/*        XP a = rand();
+		  XP b = rand();
+		  System.out.println("a: " + a);
+		  System.out.println("b: " + b);
+		  XP sum = a.add(b);
+		  System.out.println("sum: " + sum);
+		  System.out.println("diff: " + sum.sub(a));
+		  System.out.println("multi: " + a.mult(b));
+		  System.out.println("div: " + a.div(b));
+		  System.out.println("mod: " + a.mod(b));
+		  System.out.println("a.getNumDigits: " + a.getNumDigits());
+		  System.out.println("a.compareTo: " + a.compareTo(b));
+	*/
+	/*   RSA rsa = new RSA();
+	     int enc = rsa.encrypt(2003);
+	     System.out.println(enc);
+	     System.out.println(rsa.decrypt(enc));
 
-        RSA rsa = new RSA();
-        int enc = rsa.encrypt(2003);
-        System.out.println(enc);
-        System.out.println(rsa.decrypt(enc));
+	     XP en = rsa.encrypt(new XP("2003"));
+	     System.out.println(en);
+	     System.out.println(rsa.decrypt(en));
+	*/
 
-        XP en = rsa.encrypt(new XP("2003"));
-        System.out.println(en);
-        System.out.println(rsa.decrypt(en));
+	System.out.println("Enter your short message: ");
+	Scanner scanner = new Scanner(System.in);
+	String message = scanner.nextLine();
+	System.out.println("Your message is " + message);
 
-
-        /*	Message m = new Message("I like trains and turtles");
-            System.out.println(m.getMsg());
-            System.out.println(m.getMsgasc());
+        Message m = new Message(message);
+	System.out.println(m.getMsg());
+	System.out.println(m.getMsgasc());
         //	System.out.println(m.getMsgint());
-        System.out.print(m.convertXP(m.getMsgasc())[0]);
-        System.out.println(m.convertXP(m.getMsgasc())[1]);
-        System.out.println(m.convertXP(m.getMsgasc())[2]);
+	XP[] a = m.convertXP(m.getMsgasc());
+	for(int i = 0; i < m.getSize(); i++){
+	    System.out.print(a[i]);
+	}
+	System.out.println();
         System.out.println(m.getSize());
         XP[] ar = m.encrypt(m.getMsgarray());
-        System.out.print(ar[0]);
-        System.out.println(ar[1]);
+	for(int i = 0; i < m.getSize(); i++){
+	    System.out.print(ar[i]);
+        }
+	System.out.println();
         XP[] ar2 = m.decrypt(ar);
-        System.out.print(ar2[0]);
-        System.out.println(ar2[1]);
-        */
+	for(int i = 0; i < m.getSize(); i++){
+	    System.out.print(ar2[i]);
+	}
+	
+        System.out.println();
+	String deconvert = m.deconvert(a);
+	System.out.println(m.deconvertString(deconvert));
     }
 
 }

@@ -7,8 +7,8 @@ public class RSA {
     //TODO
     // KEY GENERATION?
     public RSA() {
-        privateKey = new int[]{2563,3713};
-        publicKey = new int[]{7,3713};
+        privateKey = new int[]{5815,10379};//{2563,3713};
+        publicKey = new int[]{7,10379};//{7,3713};
     }
 
     // Modular exp:
