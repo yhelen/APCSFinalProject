@@ -37,35 +37,24 @@ public class Main {
 	     System.out.println(rsa.decrypt(en));
 	*/
 
-	System.out.println("Enter your short message: ");
+	System.out.println("Enter a short message <30 characters: ");
 	Scanner scanner = new Scanner(System.in);
 	String message = scanner.nextLine();
 	System.out.println("Your message is " + message);
 
         Message m = new Message(message);
 	System.out.println(m.getMsg());
-	System.out.println(m.getMsgasc());
-        //	System.out.println(m.getMsgint());
-	XP[] a = m.convertXP(m.getMsgasc());
-	for(int i = 0; i < m.getSize(); i++){
-	    System.out.print(a[i]);
+	XP[] ar = m.encryptMessage();
+	String s = "";
+	for(int i = 0; i < m.size(ar); i++){
+	    s += ar[i];
 	}
+	System.out.println(s);
+        String ar2 = m.decryptMessage(ar);
+	System.out.println(ar2);
 	
-	System.out.println();
-        System.out.println(m.getSize());
-        XP[] ar = m.encrypt(m.getMsgarray());
-	for(int i = 0; i < m.getSize(); i++){
-	    System.out.print(ar[i]);
-        }
-	System.out.println();
-        XP[] ar2 = m.decrypt(ar);
-	for(int i = 0; i < m.getSize(); i++){
-	    System.out.print(ar2[i]);
-	}
+
 	
-        System.out.println();
-	String deconvert = m.deconvert(ar2);
-	System.out.println(m.deconvertString(deconvert));
     }
 
 }

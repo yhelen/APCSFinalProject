@@ -43,7 +43,7 @@ public class RSA {
         return modEx(new XP("" + input), privateKey[0], privateKey[1]);
     }
 
-    //for XPs
+    //same methods but for XPs
     public XP modExXP(XP b, int e, int m){
         XP c = new XP("1");
         for(int i = 0; i < e; i++) {

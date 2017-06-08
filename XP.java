@@ -13,7 +13,7 @@ public class XP implements Comparable<XP>{
     private static final int ALLOCATED_LEN = 2 * MAX_LENGTH + 1;
 
     // Constructor to set an XP equal to an array of digits
-    // TODO
+    // TODO??
     // Check that all digits are, in fact, digits
     private XP(int[] digits) {
         if(digits.length != ALLOCATED_LEN) {
@@ -115,11 +115,23 @@ public class XP implements Comparable<XP>{
         return new XP(diff);
     }
 
-    // Multiplies two XPs
+    // Returns the product of the two XPs
     public XP mult(XP n) {
         return new XP("" + karatsuba(this,n), false);
     }
 
+    // Multiplies the two XPs using the karatsuba algorithm:
+    // Find the number with the most digits
+    // Take half of the number of digits of that number, ex
+    // Split both numbers into two parts, using ex as the split point
+    // Take the first part of both numbers and multiply them, z2
+    // Take the second part of both numbers and multiply them, z0
+    // Take the sum of both parts of the first number and 
+    //   the sum of both parts of the second number
+    //   and multiply them, z1
+    // Add z2 multiplied by 10 raised to two times the splitting number, ex
+    //   to (z1-z2-z0) multiplied by 10 raised to ex
+    //   to z0 for the final result
     private XP karatsuba(XP a, XP b){
         if(a.numDigits <= 1 && b.numDigits <= 1) {	    
             return new XP("" + (a.num[0] * b.num[0]));
@@ -153,10 +165,12 @@ public class XP implements Comparable<XP>{
         XP z0 = karatsuba(low1,low2);
         XP z1 = karatsuba(lows,highs);
         XP z2 = karatsuba(high1,high2);
-        return temp(z2,(ex * 2)).add(temp(z1.sub(z2).sub(z0),ex)).add(z0);
+        return helper(z2,(ex * 2)).add(helper(z1.sub(z2).sub(z0),ex)).add(z0);
     } 
 
-    private XP temp(XP z, int exp){
+    // Multiplies XP by 10 to the exp
+    // By placing the ones digit after exp 0s
+    private XP helper(XP z, int exp){
         String x = "";
         for(int i = 0; i < exp; i++) {
             x += 0;
