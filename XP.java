@@ -20,6 +20,11 @@ public class XP implements Comparable<XP>{
             throw new IllegalArgumentException("Incorrect num digits");
         }
 
+        for(int x: digits) {
+            if(x < 0 || x > 9) {
+                throw new IllegalArgumentException("Input array has a number < 0 or > 9");
+            }
+        }
         num = digits;
         numDigits = countDigits();
     }
