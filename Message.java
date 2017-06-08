@@ -65,16 +65,24 @@ public class Message extends RSA{
 	    throw new IllegalArgumentException("message is too long");
 	XP[] ans = new XP[LEN];
 	int i = 0;
-	while(i < s.length() / 4){
+	int j = 0;
+	while(j < s.length() / 4){
 	    //because the encrypter limit is 5;
-	    int lower = i  * 4;
+	    int lower = j * 4;
+	    //to account for the inpt starting with 0
+	    if(s.substring(lower,lower+1).equals("0")){
+		System.out.println(true);
+		ans[i] = new XP("");
+		i++;
+	    }
 	    XP x = new XP(s.substring(lower,lower+4));
 	    ans[i] = x;
 	    i++;
+	    j++;
 	}
 	//to account for left over characters
 	if(s.length() % 4 != 0)
-	    ans[i] = new XP(s.substring(i*4));
+	    ans[i] = new XP(s.substring(j*4));
 	return ans;
     }
 

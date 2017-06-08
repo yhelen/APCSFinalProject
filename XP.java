@@ -49,11 +49,6 @@ public class XP implements Comparable<XP>{
         this("" + number);
     }
 
-    // needed for message
-    public int getLength(){
-        return MAX_LENGTH;
-    }
-
     // Takes the string of digits and parses through, setting each character
     // to a position in the array
     private void setNum(String digits) {

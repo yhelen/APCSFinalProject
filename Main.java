@@ -50,6 +50,7 @@ public class Main {
 	for(int i = 0; i < m.getSize(); i++){
 	    System.out.print(a[i]);
 	}
+	
 	System.out.println();
         System.out.println(m.getSize());
         XP[] ar = m.encrypt(m.getMsgarray());
@@ -63,7 +64,7 @@ public class Main {
 	}
 	
         System.out.println();
-	String deconvert = m.deconvert(a);
+	String deconvert = m.deconvert(ar2);
 	System.out.println(m.deconvertString(deconvert));
     }
 
