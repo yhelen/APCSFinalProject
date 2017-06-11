@@ -27,11 +27,14 @@ public class Main {
                   System.out.println("a.getNumDigits: " + a.getNumDigits());
                   System.out.println("a.compareTo: " + a.compareTo(b));
                   */
-        /*   RSA rsa = new RSA();
+        /*   System.out.println("Encryption & decryption example: 2003")
+	     System.out.println("Using integers:");
+	     RSA rsa = new RSA();
              int enc = rsa.encrypt(2003);
              System.out.println(enc);
              System.out.println(rsa.decrypt(enc));
 
+	     System.out.println("Using XPs:");
              XP en = rsa.encrypt(new XP("2003"));
              System.out.println(en);
              System.out.println(rsa.decrypt(en));

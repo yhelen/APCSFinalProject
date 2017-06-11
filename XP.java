@@ -13,8 +13,7 @@ public class XP implements Comparable<XP>{
     private static final int ALLOCATED_LEN = 2 * MAX_LENGTH + 1;
 
     // Constructor to set an XP equal to an array of digits
-    // TODO??
-    // Check that all digits are, in fact, digits
+    // Checks that all digits are, in fact, digits
     private XP(int[] digits) {
         if(digits.length != ALLOCATED_LEN) {
             throw new IllegalArgumentException("Incorrect num digits");
@@ -49,7 +48,7 @@ public class XP implements Comparable<XP>{
         this(digits, true);
     }
 
-    // Takes in an int and turns it to XP
+    // Takes in an int and turns it into a XP
     public XP(int number) {
         this("" + number);
     }
@@ -66,8 +65,8 @@ public class XP implements Comparable<XP>{
         }
     }
 
-    // Counts number of digits by subtracting the number of leading zeroes from
-    // the allocated length
+    // Counts the number of digits by traversing down the array 
+    // subtracting 1 from the allocated length for every leading zero
     private int countDigits() {
         int i = ALLOCATED_LEN - 1;
         while(i >= 0 && num[i] == 0) {
@@ -134,9 +133,9 @@ public class XP implements Comparable<XP>{
     // Take the sum of both parts of the first number and 
     //   the sum of both parts of the second number
     //   and multiply them, z1
-    // Add z2 multiplied by 10 raised to two times the splitting number, ex
+    // Add z2 multiplied by 10 raised to two times the splitting number (ex)
     //   to (z1-z2-z0) multiplied by 10 raised to ex
-    //   to z0 for the final result
+    //   and z0 for the final result
     private XP karatsuba(XP a, XP b){
         if(a.numDigits <= 1 && b.numDigits <= 1) {	    
             return new XP("" + (a.num[0] * b.num[0]));
@@ -230,7 +229,9 @@ public class XP implements Comparable<XP>{
     }
 
     // Compares two XPs by:
-    // comparing number of digits, then comparing each digit starting from the greatest
+    // comparing the number of digits
+    // then if they have the same number of digits
+    //   comparing each digit starting from the greatest
     public int compareTo(XP b) {
         if(this.getNumDigits() != b.getNumDigits()) {
             return this.getNumDigits() - b.getNumDigits();
