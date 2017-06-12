@@ -3,12 +3,28 @@ public class RSA {
     private int[] privateKey;
     private int[] publicKey;
 
-    //public[1] && private[1] MUST BE EQUAL
-    //TODO
-    // KEY GENERATION?
+    // Keys are generated with the following formula:
+    // First two distinct prime numbers, p and q, are picked
+    //   p = 97 and q = 107
+    // Then the product of p & q is computed, n
+    //   p * q = n = 10379
+    // Then the totient of the product is computed
+    // Which can also be computed as the Least Common Multiple
+    //  of p-1 and q-1
+    //   totient(n) = totient(10379) = LCM(p-1,q-1) = LCM(96,106) = 10176
+    // Then any number coprime to totient(n) is chosen, e
+    //   e = 7
+    // Then find the modular multiplicative inverse of e(mod(totient(n))), d
+    //   d = 5815
+    // The private key array is {d,n}
+    // The public key array is {e,n}
+    // The encrypter can only encrypt integers/XPs from 0 inclusive
+    //  to n exclusive, [0,n)
+    // This could be used to generate bigger keys for a larger allowed range of
+    //  numbers for encryption, but would result in a longer runtime
     public RSA() {
-        privateKey = new int[]{5815,10379};//{2563,3713};
-        publicKey = new int[]{7,10379};//{7,3713};
+        privateKey = new int[]{5815,10379};
+        publicKey = new int[]{7,10379};
     }
 
     // Modular exp:

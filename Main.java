@@ -26,7 +26,7 @@ public class Main {
                   System.out.println("mod: " + a.mod(b));
                   System.out.println("a.getNumDigits: " + a.getNumDigits());
                   System.out.println("a.compareTo: " + a.compareTo(b));
-                  */
+	*/
         /*   System.out.println("Encryption & decryption example: 2003")
 	     System.out.println("Using integers:");
 	     RSA rsa = new RSA();
@@ -38,8 +38,9 @@ public class Main {
              XP en = rsa.encrypt(new XP("2003"));
              System.out.println(en);
              System.out.println(rsa.decrypt(en));
-             */
+	*/
 
+	
         System.out.println("Enter a short message (<30 characters): ");
         Scanner scanner = new Scanner(System.in);
         String message = scanner.nextLine();
@@ -57,7 +58,7 @@ public class Main {
         System.out.println("Sorry, you're going to have to give me a while. :)");
         String ar2 = m.decryptMessage(ar);
         System.out.println("It's: " + ar2);
-
+	
     }
 
 }
