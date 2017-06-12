@@ -6,18 +6,22 @@ public class Message extends RSA{
     // Stores the message
     private String _msg;
     // The maximum possible length of an XP array for a message with 30
-    // should be 110
+    // would be 38
     // as each ascii number could have up to 3 digits
     // and each character has a 32 after it, 2 digits
     // resulting in a string with up to 150 characters
     // and would require 38 splits with 4 character splits
-    // hypothetically, each 4 character split in stringToArray
-    // could result in leading zeros, except for the first two splits,
-    // which would require up to 3 array slots
-    // first two splits: 1 array spot each
-    // rest of the splits: 36 * 3
-    // splitting and leading zeros explained in stringToArray
-    private static final int LEN = 110;
+    // however, the 4 character splits in stringToArray
+    // could result in up to 2 leading zeros, because the only
+    // character with an ascii with two zeros is d,
+    // which has an ascii of 100,
+    // and each 0 requires its own slot in the array, which would
+    // result in up to 3 slots for a 4 character split
+    // however, not every split of a string can result in 2 leading 0s,
+    // so a size of 100 should allow for all the splits of any
+    // string to have enough room in the array
+    // splitting and leading zeros explained throughly in stringToArray
+    private static final int LEN = 100;
 
     // constructor
     // checks that the message is less than or equal to 30 characters
@@ -57,18 +61,20 @@ public class Message extends RSA{
         int j = 0;
         while(j < s.length() / 4){
             int lower = j * 4;
-            // to account for the string starting with 0
+            // to account for the split substring starting with 0s
             // as XP does not allow for leading zeros
             // a split could have up to two leading 0s as
             // the only ascii character with two zeros is d
             // with an ascii value of 100
             // an empty string creates an XP with value 0
+	    //2 leading 0s
             if(s.substring(lower,lower+2).equals("00")){
                 ans[i] = new XP("");
                 i++;
                 ans[i] = new XP("");
                 i++;
             }
+	    //1 leading 0
             else if(s.substring(lower,lower+1).equals("0")){
                 ans[i] = new XP("");
                 i++;
