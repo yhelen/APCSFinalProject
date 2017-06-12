@@ -72,13 +72,11 @@ public class XP implements Comparable<XP>{
         while(i >= 0 && num[i] == 0) {
             i--;
         }
-        if(i == -1) return 1;
+        // If the XP is equal to 0, i will be -1 after loop
+        if(i == -1) {
+            i++;
+        }
         return i + 1;
-    }
-
-    // Returns whether the XP is odd
-    public boolean isOdd() {
-        return num[0] % 2 == 1;
     }
 
     // Adds two numbers by going through each digit and carrying over digits if
@@ -231,7 +229,7 @@ public class XP implements Comparable<XP>{
     // Compares two XPs by:
     // comparing the number of digits
     // then if they have the same number of digits
-    //   comparing each digit starting from the greatest
+    // comparing each digit starting from the greatest
     public int compareTo(XP b) {
         if(this.getNumDigits() != b.getNumDigits()) {
             return this.getNumDigits() - b.getNumDigits();
