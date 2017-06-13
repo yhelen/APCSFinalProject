@@ -40,6 +40,7 @@ public class Main {
 
         System.out.println("<================>");
         System.out.println("Encryption & decryption example: 2003");
+	System.out.println("This may take a few seconds.");
         System.out.println("<================>");
         System.out.println("Using integers:");
         System.out.println("Encrypted: " + enc);
@@ -53,7 +54,7 @@ public class Main {
         System.out.println("<================>");
         System.out.println("Enter a short message (<30 characters): ");
         String message = scanner.nextLine();
-        System.out.println("Your message is " + message);
+        System.out.println("Your message is: " + message);
 
         Message m = new Message(message);
         XP[] ar = m.encryptMessage();
@@ -62,9 +63,10 @@ public class Main {
             s += ar[i];
         }
         System.out.println("Your encrypted message is: " + s);
+	System.out.println("Your decrypted message is... ");
         System.out.println("Sorry, you're going to have to give me a while. :)");
         String ar2 = m.decryptMessage(ar);
-        System.out.println("Your decrypted message is");
+        System.out.print("Your decrypted message is: ");
         System.out.println(ar2);
 
     }

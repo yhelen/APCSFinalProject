@@ -19,7 +19,7 @@ public class Message extends RSA{
     // result in up to 3 slots for a 4 character split
     // however, not every split of a string can result in 2 leading 0s,
     // so a size of 100 should allow for all the splits of any
-    // string to have enough room in the array
+    // message to have enough room in the array
     // splitting and leading zeros explained throughly in stringToArray
     private static final int LEN = 100;
 
@@ -49,13 +49,41 @@ public class Message extends RSA{
         return count;
     }
 
+    // returns the XP array of the encrypted message
+    public XP[] encryptMessage(){
+        return encryptMessage(_msg);
+    }
+
+    // encrypts the message
+    // first converts the message to its modified ascii form
+    // then creates an XP array of the ascii String
+    // then encrypts the XP array and returns it
+    private XP[] encryptMessage(String msg){
+        String ascii = convertascii(msg);
+        XP[] xps = stringToArray(ascii);
+        XP[] encrypted = encrypt(xps);
+        return encrypted;
+    }
+
+    // converts String to a modified ascii String
+    // with a 32 (the ascii for a space) after each character
+    // to make the characters distinguishable for decrypting
+    private String convertascii(String s){
+        String ans = "";
+        for(int i = 0; i < s.length(); i++){
+            char c = s.charAt(i);
+            ans += (int)c + "32";
+        }
+        return ans;
+    }
+    
     // converts string to XP array
     // splits the string into smaller strings of length 4
     // because the encrypter can currently only encrypt numbers up to 10379
     // then converts each smaller string into an XP and adds it to the array
     private XP[] stringToArray(String s){
         XP[] ans = new XP[LEN];
-        // i is for adding it to the array
+        // i is for adding XPs to the array
         // j is for spliting the string
         int i = 0;
         int j = 0;
@@ -103,44 +131,6 @@ public class Message extends RSA{
         return ans;
     }
 
-    // returns a String of all the XPs in the array
-    private String arrayToString(XP[] xps){
-        String ans = "";
-        int size = size(xps);
-        for(int i = 0; i < size; i++){
-            ans += xps[i];
-        }
-        return ans;
-    }
-
-    // returns the XP array of the encrypted message
-    public XP[] encryptMessage(){
-        return encryptMessage(_msg);
-    }
-
-    // encrypts the message
-    // first converts the message to its modified ascii form
-    // then creates an XP array of the ascii String
-    // and returns it
-    private XP[] encryptMessage(String msg){
-        String ascii = convertascii(msg);
-        XP[] xps = stringToArray(ascii);
-        XP[] encrypted = encrypt(xps);
-        return encrypted;
-    }
-
-    // converts String to a modified ascii String
-    // with a 32 (the ascii for a space) after each character
-    // to make the characters distinguishable for decrypting
-    private String convertascii(String s){
-        String ans = "";
-        for(int i = 0; i < s.length(); i++){
-            char c = s.charAt(i);
-            ans += (int)c + "32";
-        }
-        return ans;
-    }
-
     // encrypts the XP array
     // takes each XP of the array and encrypts it
     // to make a new array of encrypted XPs
@@ -161,11 +151,12 @@ public class Message extends RSA{
     // and converts that modified ascii String to the message
     public String decryptMessage(XP[] xps){
         XP[] decrypted = decrypt(xps);
-        String msg = deconvertString(arrayToString(decrypted));
+	String ascii = arrayToString(decrypted);
+        String msg = deconvertString(ascii);
         return msg;
     } 
 
-    // decrypts XP array
+    // decrypts the XP array
     // takes each XP of the array and decrypts it
     // to make a new array of decrypted XPs
     private XP[] decrypt(XP[] xps){
@@ -179,6 +170,16 @@ public class Message extends RSA{
         return ans;
     }
 
+    // returns a String of all the XPs in the array
+    private String arrayToString(XP[] xps){
+        String ans = "";
+        int size = size(xps);
+        for(int i = 0; i < size; i++){
+            ans += xps[i];
+        }
+        return ans;
+    }
+    
     // deconverts ascii String to message
     // splits the string by each 32 and converts each ascii number
     // to its corresponding character    

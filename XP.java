@@ -53,8 +53,8 @@ public class XP implements Comparable<XP>{
         this("" + number);
     }
 
-    // Takes the string of digits and parses through, setting each character
-    // to a position in the array
+    // Takes the string of digits and parses through, setting each digit
+    // to its position in the array
     private void setNum(String digits) {
         int strInd = digits.length();
         int i = 0;
@@ -131,7 +131,7 @@ public class XP implements Comparable<XP>{
     // Take the sum of both parts of the first number and 
     //   the sum of both parts of the second number
     //   and multiply them, z1
-    // Add z2 multiplied by 10 raised to two times the splitting number (ex)
+    // Add z2 multiplied by 10 raised to two times the splitting number (2 * ex)
     //   to (z1-z2-z0) multiplied by 10 raised to ex
     //   and z0 for the final result
     private XP karatsuba(XP a, XP b){
